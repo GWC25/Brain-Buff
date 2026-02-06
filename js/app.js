@@ -1,14 +1,37 @@
-// Phase 1: Initialization
+import { techniques } from '../data/content.js';
+import { RevisionCard } from './components/RevisionCard.js';
+
 console.log("Brain-Buff Protocol Initiated...");
 
 // DOM Elements
 const soundBtn = document.getElementById('toggle-sound');
+const deckContainer = document.getElementById('card-container');
 let soundEnabled = true;
 
-// Basic Event Listeners (To test the UI)
+// 1. RENDER CARDS
+function initDeck() {
+    deckContainer.innerHTML = ''; // Clear loading text
+
+    techniques.forEach(tech => {
+        // Create the element
+        const card = document.createElement('revision-card');
+        
+        // Pass data as a string attribute (so the component can read it)
+        card.setAttribute('data-content', JSON.stringify(tech));
+        
+        // Accessibility: Make the card focusable
+        card.setAttribute('tabindex', '0');
+
+        deckContainer.appendChild(card);
+    });
+}
+
+// 2. SETUP AUDIO (Simple Toggle for now)
 soundBtn.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     soundBtn.textContent = soundEnabled ? "SOUND: ON" : "SOUND: MUTE";
     soundBtn.setAttribute('aria-pressed', !soundEnabled);
-    console.log(`Audio System: ${soundEnabled ? 'Active' : 'Disabled'}`);
 });
+
+// Run Initialization
+initDeck();
