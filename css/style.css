@@ -1,4 +1,6 @@
-/* 1. CSS VARIABLES (The Theme) */
+/* =========================================
+   1. CSS VARIABLES (The Theme)
+   ========================================= */
 :root {
     /* Colors */
     --bg-color: #0a0a0a;          /* Deep Black */
@@ -19,7 +21,9 @@
     --radius-lg: 12px;
 }
 
-/* 2. RESET & BASE */
+/* =========================================
+   2. RESET & BASE
+   ========================================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -32,6 +36,9 @@ body {
     font-family: 'Courier New', Courier, monospace; /* Tech feel */
     line-height: 1.6;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* WCAG: Skip Link */
@@ -49,7 +56,9 @@ body {
     top: 0;
 }
 
-/* 3. LAYOUT */
+/* =========================================
+   3. LAYOUT & NAVIGATION
+   ========================================= */
 .app-header {
     display: flex;
     justify-content: space-between;
@@ -69,18 +78,48 @@ body {
     text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
 }
 
-.blink {
-    animation: blinker 1s linear infinite;
+.main-nav {
+    display: flex;
+    gap: 2rem;
 }
 
-@keyframes blinker {
-    50% { opacity: 0; }
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.main-nav a:hover {
+    color: var(--neon-blue);
+}
+
+/* The Active Page Style (Underlined with Neon) */
+.main-nav a.active-page {
+    color: var(--text-main);
+}
+
+.main-nav a.active-page::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: var(--neon-pink);
+    position: absolute;
+    bottom: -5px;
+    box-shadow: 0 0 10px var(--neon-pink);
 }
 
 main {
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 2rem;
+    flex: 1; /* Pushes footer down */
 }
 
 .section-zone {
@@ -95,7 +134,18 @@ main {
     text-transform: uppercase;
 }
 
-/* 4. BUTTONS & UI */
+.app-footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: var(--border-thick);
+    margin-top: auto;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   4. BUTTONS & UI ELEMENTS
+   ========================================= */
 button {
     background: transparent;
     border: 2px solid var(--neon-blue);
@@ -113,13 +163,19 @@ button:hover {
     box-shadow: 0 0 10px var(--neon-blue);
 }
 
+/* Muted Button Style */
+.controls button.muted {
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+}
+
 /* WCAG: Focus States */
 button:focus-visible, a:focus-visible {
     outline: 3px dashed var(--neon-green);
     outline-offset: 4px;
 }
 
-/* 5. PLACEHOLDERS (Grid setup for later) */
+/* Loading & Empty States */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -134,16 +190,89 @@ button:focus-visible, a:focus-visible {
     text-align: center;
 }
 
-.app-footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: var(--border-thick);
-    margin-top: 4rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
+/* Utilities */
+.blink {
+    animation: blinker 1s linear infinite;
 }
 
-/* --- COMPONENT: REVISION CARD --- */
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+/* =========================================
+   5. LANDING PAGE STYLES
+   ========================================= */
+#landing-content {
+    text-align: center;
+    padding-top: 3rem;
+}
+
+.hero-section h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+    letter-spacing: -2px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--neon-green);
+    margin-bottom: 4rem;
+}
+
+.onboarding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.step-card {
+    border: 1px solid var(--text-muted);
+    padding: 2rem;
+    text-align: left;
+    position: relative;
+    background: linear-gradient(180deg, var(--surface-color) 0%, transparent 100%);
+}
+
+.step-icon {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--surface-color); 
+    text-shadow: -1px -1px 0 var(--text-muted); /* Outline effect */
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    opacity: 0.3;
+}
+
+.step-card h3 {
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background: var(--neon-green);
+    color: var(--bg-color);
+    padding: 1rem 3rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border: 2px solid var(--neon-green);
+    transition: all 0.2s;
+}
+
+.cta-button:hover {
+    background: transparent;
+    color: var(--neon-green);
+    box-shadow: 0 0 20px var(--neon-green);
+}
+
+/* =========================================
+   6. COMPONENT: REVISION CARD
+   ========================================= */
 
 /* The Container (Web Component) */
 revision-card {
@@ -269,73 +398,4 @@ revision-card h3 {
 revision-card:focus-visible .card-face {
     outline: 3px dashed var(--neon-blue);
     outline-offset: 4px;
-}
-
-/* --- LANDING PAGE STYLES --- */
-#landing-content {
-    text-align: center;
-    padding-top: 3rem;
-}
-
-.hero-section h1 {
-    font-size: 4rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-main);
-    letter-spacing: -2px;
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    color: var(--neon-green);
-    margin-bottom: 4rem;
-}
-
-.onboarding-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.step-card {
-    border: 1px solid var(--text-muted);
-    padding: 2rem;
-    text-align: left;
-    position: relative;
-    background: linear-gradient(180deg, var(--surface-color) 0%, transparent 100%);
-}
-
-.step-icon {
-    font-size: 3rem;
-    font-weight: bold;
-    color: var(--surface-color); /* Dark text */
-    text-shadow: -1px -1px 0 var(--text-muted); /* Outline effect */
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    opacity: 0.3;
-}
-
-.step-card h3 {
-    color: var(--neon-blue);
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-}
-
-.cta-button {
-    display: inline-block;
-    background: var(--neon-green);
-    color: var(--bg-color);
-    padding: 1rem 3rem;
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-decoration: none;
-    border: 2px solid var(--neon-green);
-    transition: all 0.2s;
-}
-
-.cta-button:hover {
-    background: transparent;
-    color: var(--neon-green);
-    box-shadow: 0 0 20px var(--neon-green);
 }
