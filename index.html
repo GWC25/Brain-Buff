@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain-Buff | Revision Protocol</title>
+    <meta name="description" content="A gamified revision tool and scheduler.">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="app-header">
+        <div class="logo">BRAIN_BUFF <span class="blink">_</span></div>
+        <nav class="app-controls">
+            <button id="toggle-sound" aria-label="Toggle Sound" aria-pressed="false">
+                SOUND: ON
+            </button>
+            <button id="view-toggle" aria-label="Toggle Schedule View">
+                VIEW: WEEK
+            </button>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        
+        <section class="section-zone" aria-labelledby="zone-deck">
+            <h2 id="zone-deck" class="zone-title">// TECH_DECK</h2>
+            <div id="card-container" class="card-grid">
+                <p class="loading-text">Loading protocols...</p>
+            </div>
+        </section>
+
+        <section class="section-zone" aria-labelledby="zone-stars">
+            <h2 id="zone-stars" class="zone-title">// FAVORITES</h2>
+            <div id="favorites-container" class="card-grid">
+                <p class="empty-state">No protocols starred yet.</p>
+            </div>
+        </section>
+
+        <section class="section-zone" aria-labelledby="zone-schedule">
+            <h2 id="zone-schedule" class="zone-title">// TIME_GRID</h2>
+            <div id="scheduler-app">
+                <div class="scheduler-placeholder">Initializing Grid...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <div id="stats-bar">SESSION STATUS: ACTIVE</div>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
