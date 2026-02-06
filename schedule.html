@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain-Buff | Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <section class="section-zone">
+            <div class="scheduler-controls">
+                <h2 class="zone-title" style="margin-bottom:0">// TIME_GRID</h2>
+                
+                <div class="view-buttons">
+                    <button id="view-week" class="active-view">WEEK</button>
+                    <button id="view-3day">3-DAY</button>
+                    <button id="view-today">TODAY</button>
+                </div>
+            </div>
 
+            <div class="hint-text" style="text-align: left; margin-bottom: 1rem;">
+                Instructions: Drag to move. Click to type. Double-click to mark DONE.
+            </div>
+            
+            <schedule-table></schedule-table>
+        </section>
+    </main>
+
+    <script src="js/common.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
