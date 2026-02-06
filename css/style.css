@@ -399,3 +399,135 @@ revision-card:focus-visible .card-face {
     outline: 3px dashed var(--neon-blue);
     outline-offset: 4px;
 }
+
+/* =========================================
+   7. COMPONENT: SCHEDULE TABLE
+   ========================================= */
+
+.scheduler-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.view-buttons button.active-view {
+    background: var(--neon-pink);
+    color: var(--bg-color);
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* THE GRID CONTAINER */
+.schedule-grid {
+    display: grid;
+    /* Time Column + 7 Days */
+    grid-template-columns: 60px repeat(7, 1fr); 
+    gap: 2px;
+    background: var(--surface-color);
+    border: 2px solid var(--text-muted);
+    overflow-x: auto; /* Scroll on mobile */
+}
+
+/* HEADER CELLS (Days) */
+.header-cell {
+    background: #000;
+    color: var(--neon-blue);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 2px solid var(--text-muted);
+}
+
+/* TIME COLUMN */
+.time-cell {
+    background: #000;
+    color: var(--text-muted);
+    padding: 10px;
+    text-align: right;
+    font-size: 0.8rem;
+    border-right: 1px solid var(--text-muted);
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+/* TASK SLOTS */
+.task-slot {
+    background: var(--bg-color);
+    color: var(--text-main);
+    padding: 8px;
+    min-height: 50px;
+    font-size: 0.9rem;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: background 0.2s;
+    outline: none; /* Removed default focus */
+}
+
+.task-slot:hover {
+    background: #1a1a1a;
+}
+
+.task-slot:focus {
+    background: #222;
+    border: 1px dashed var(--neon-green);
+    z-index: 5;
+}
+
+/* DRAG & DROP STATES */
+.task-slot.dragging {
+    opacity: 0.5;
+    background: var(--neon-blue);
+}
+
+.task-slot.drag-over {
+    background: rgba(0, 243, 255, 0.2);
+    border: 2px dashed var(--neon-blue);
+}
+
+/* COMPLETED STATE (The Graffiti Effect) */
+.task-slot.is-complete {
+    background: var(--neon-green);
+    color: var(--bg-color);
+    font-weight: bold;
+    text-decoration: line-through;
+    position: relative;
+    overflow: hidden;
+}
+
+.task-slot.is-complete::after {
+    content: 'DONE';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 1.5rem;
+    color: rgba(0,0,0,0.2);
+    border: 2px solid rgba(0,0,0,0.2);
+    padding: 0.2rem 1rem;
+    pointer-events: none;
+}
+
+/* VIEW FILTERS (Hiding Columns) */
+/* Initially show all. Javascript will add classes to hide columns */
+.schedule-grid.view-3day .col-hide-3day { display: none; }
+.schedule-grid.view-today .col-hide-today { display: none; }
+
+/* Mobile Adjustment */
+@media (max-width: 768px) {
+    .schedule-grid {
+        grid-template-columns: 50px 1fr; /* Force Today View on Mobile essentially */
+    }
+    .header-cell:not(.active-day), 
+    .task-slot:not(.active-day) {
+        display: none; 
+        /* Complex logic simplified: JS handles mobile views better, but this is a fallback */
+    }
+}
