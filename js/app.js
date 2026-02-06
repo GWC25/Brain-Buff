@@ -1,5 +1,6 @@
 import { techniques } from '../data/content.js';
 import { RevisionCard } from './components/RevisionCard.js';
+import { ScheduleTable } from './components/ScheduleTable.js';
 
 console.log("Brain-Buff Protocol Initiated...");
 
