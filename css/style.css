@@ -1,1 +1,144 @@
+/* 1. CSS VARIABLES (The Theme) */
+:root {
+    /* Colors */
+    --bg-color: #0a0a0a;          /* Deep Black */
+    --surface-color: #1a1a1a;     /* Dark Grey */
+    --text-main: #f0f0f0;         /* Off-White */
+    --text-muted: #888888;
+    
+    /* Accents - "Cyberpunk" Palette */
+    --neon-green: #00ff41;        /* Hacker Green */
+    --neon-pink: #ff00ff;         /* Glitch Pink */
+    --neon-blue: #00f3ff;         /* Cyber Blue */
+    --alert-red: #ff3333;
 
+    /* Spacing & Borders */
+    --border-thick: 3px solid var(--text-main);
+    --border-thin: 1px solid var(--text-muted);
+    --radius-sm: 4px;
+    --radius-lg: 12px;
+}
+
+/* 2. RESET & BASE */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Courier New', Courier, monospace; /* Tech feel */
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* WCAG: Skip Link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--neon-pink);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.2s;
+}
+.skip-link:focus {
+    top: 0;
+}
+
+/* 3. LAYOUT */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: var(--border-thick);
+    background: var(--surface-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--neon-green);
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.section-zone {
+    margin-bottom: 4rem;
+}
+
+.zone-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    border-left: 10px solid var(--neon-pink);
+    padding-left: 1rem;
+    text-transform: uppercase;
+}
+
+/* 4. BUTTONS & UI */
+button {
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 0.5rem 1rem;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: var(--neon-blue);
+    color: var(--bg-color);
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* WCAG: Focus States */
+button:focus-visible, a:focus-visible {
+    outline: 3px dashed var(--neon-green);
+    outline-offset: 4px;
+}
+
+/* 5. PLACEHOLDERS (Grid setup for later) */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.loading-text, .empty-state {
+    color: var(--text-muted);
+    font-style: italic;
+    border: 1px dashed var(--text-muted);
+    padding: 2rem;
+    text-align: center;
+}
+
+.app-footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: var(--border-thick);
+    margin-top: 4rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
