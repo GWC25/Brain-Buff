@@ -5,34 +5,53 @@ import { ScheduleTable } from './components/ScheduleTable.js';
 console.log("Brain-Buff Protocol Initiated...");
 
 // DOM Elements
-const soundBtn = document.getElementById('toggle-sound');
-const deckContainer = document.getElementById('card-container');
-let soundEnabled = true;
+const deckContainer = document.getElementById('card-container');      // Found on deck.html
+const favContainer = document.getElementById('favorites-container');  // Found on favorites.html
 
-// 1. RENDER CARDS
-function initDeck() {
-    deckContainer.innerHTML = ''; // Clear loading text
-
-    techniques.forEach(tech => {
-        // Create the element
-        const card = document.createElement('revision-card');
-        
-        // Pass data as a string attribute (so the component can read it)
-        card.setAttribute('data-content', JSON.stringify(tech));
-        
-        // Accessibility: Make the card focusable
-        card.setAttribute('tabindex', '0');
-
-        deckContainer.appendChild(card);
-    });
+// Function to create and append a card
+function renderCard(tech, container) {
+    const card = document.createElement('revision-card');
+    card.setAttribute('data-content', JSON.stringify(tech));
+    card.setAttribute('tabindex', '0');
+    container.appendChild(card);
 }
 
-// 2. SETUP AUDIO (Simple Toggle for now)
-soundBtn.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    soundBtn.textContent = soundEnabled ? "SOUND: ON" : "SOUND: MUTE";
-    soundBtn.setAttribute('aria-pressed', !soundEnabled);
-});
+// MAIN LOGIC
+function init() {
+    
+    // SCENARIO 1: WE ARE ON THE MAIN DECK PAGE
+    if (deckContainer) {
+        deckContainer.innerHTML = ''; 
+        techniques.forEach(tech => {
+            renderCard(tech, deckContainer);
+        });
+    }
 
-// Run Initialization
-initDeck();
+    // SCENARIO 2: WE ARE ON THE FAVORITES PAGE
+    if (favContainer) {
+        favContainer.innerHTML = '';
+        
+        // 1. Get list of starred IDs
+        const stars = JSON.parse(localStorage.getItem('brainBuff_stars') || '[]');
+
+        // 2. Filter content based on stars
+        const starredTechs = techniques.filter(tech => stars.includes(tech.id));
+
+        // 3. Render or Show Empty State
+        if (starredTechs.length > 0) {
+            starredTechs.forEach(tech => {
+                renderCard(tech, favContainer);
+            });
+        } else {
+            favContainer.innerHTML = `
+                <div class="empty-state">
+                    <p>No favorites yet.</p>
+                    <a href="deck.html" style="color:var(--neon-green)">Go to Deck ></a>
+                </div>
+            `;
+        }
+    }
+}
+
+// Run
+init();
