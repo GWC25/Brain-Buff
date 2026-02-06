@@ -142,3 +142,131 @@ button:focus-visible, a:focus-visible {
     font-size: 0.9rem;
     color: var(--text-muted);
 }
+
+/* --- COMPONENT: REVISION CARD --- */
+
+/* The Container (Web Component) */
+revision-card {
+    display: block;
+    width: 100%;
+    height: 320px;
+    cursor: pointer;
+    perspective: 1000px; /* Essential for 3D effect */
+}
+
+revision-card:focus {
+    outline: none;
+}
+
+/* The 3D Scene Wrapper */
+.card-scene {
+    width: 100%;
+    height: 100%;
+}
+
+/* The Moving Object (The Card itself) */
+.card-object {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); /* Smooth "Slow Turn" */
+    transform-style: preserve-3d;
+}
+
+.card-object.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* Common Styles for Both Faces */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hides the back when facing away */
+    border: 2px solid var(--neon-green);
+    background: var(--surface-color);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border-radius: var(--radius-lg);
+}
+
+/* FRONT FACE */
+.card-front {
+    /* Default view */
+}
+
+/* BACK FACE */
+.card-back {
+    transform: rotateY(180deg); /* Start rotated so it's behind */
+    background: #111; /* Slightly darker for the "back" */
+    border-color: var(--neon-pink); /* Different border color for back */
+}
+
+/* Card Content Styling */
+.category-tag {
+    font-size: 0.7rem;
+    background: var(--neon-green);
+    color: var(--bg-color);
+    padding: 2px 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+revision-card h3 {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    color: var(--text-main);
+}
+
+.hint-text {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: center;
+    border-top: 1px dashed var(--text-muted);
+    padding-top: 0.5rem;
+}
+
+.yt-link {
+    display: block;
+    text-align: center;
+    background: var(--alert-red);
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem;
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    transition: transform 0.2s;
+}
+
+.yt-link:hover {
+    transform: scale(1.05);
+}
+
+/* Star Button */
+.star-btn {
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    background: none;
+    padding: 0;
+}
+
+.star-btn.active {
+    color: gold;
+    text-shadow: 0 0 10px gold;
+}
+
+/* Accessibility Focus Ring for the Component */
+revision-card:focus-visible .card-face {
+    outline: 3px dashed var(--neon-blue);
+    outline-offset: 4px;
+}
