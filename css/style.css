@@ -271,7 +271,7 @@ button:focus-visible, a:focus-visible {
 }
 
 /* =========================================
-   6. COMPONENT: REVISION CARD
+   6. COMPONENT: REVISION CARD (UPDATED)
    ========================================= */
 
 /* The Container (Web Component) */
@@ -315,11 +315,32 @@ revision-card:focus {
     border: 2px solid var(--neon-green);
     background: var(--surface-color);
     padding: 1.5rem;
+    
+    /* MOBILE FIX: Flexbox to handle long text */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     border-radius: var(--radius-lg);
+}
+
+/* Scrollable Text Area */
+.card-face p {
+    flex-grow: 1;      /* Take up available space */
+    overflow-y: auto;  /* Scroll if text overflows */
+    margin-bottom: 1rem;
+    padding-right: 5px; 
+    font-size: 0.95rem; 
+}
+
+/* Custom Scrollbar */
+.card-face p::-webkit-scrollbar {
+    width: 4px;
+}
+.card-face p::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 4px;
 }
 
 /* FRONT FACE */
@@ -354,6 +375,7 @@ revision-card h3 {
     font-size: 1.5rem;
     margin: 1rem 0;
     color: var(--text-main);
+    flex-shrink: 0; /* Keep title valid size */
 }
 
 .hint-text {
@@ -362,9 +384,11 @@ revision-card h3 {
     text-align: center;
     border-top: 1px dashed var(--text-muted);
     padding-top: 0.5rem;
+    flex-shrink: 0;
 }
 
 .yt-link {
+    flex-shrink: 0; /* Don't shrink the button */
     display: block;
     text-align: center;
     background: var(--alert-red);
@@ -373,6 +397,7 @@ revision-card h3 {
     padding: 0.8rem;
     font-weight: bold;
     border-radius: var(--radius-sm);
+    margin-top: auto; 
     transition: transform 0.2s;
 }
 
@@ -516,18 +541,46 @@ revision-card:focus-visible .card-face {
 }
 
 /* VIEW FILTERS (Hiding Columns) */
-/* Initially show all. Javascript will add classes to hide columns */
 .schedule-grid.view-3day .col-hide-3day { display: none; }
 .schedule-grid.view-today .col-hide-today { display: none; }
 
-/* Mobile Adjustment */
+/* --- MOBILE OPTIMIZATIONS (FIX) --- */
+
 @media (max-width: 768px) {
+    /* 1. Force the Grid to be Time + 1 Column */
     .schedule-grid {
-        grid-template-columns: 50px 1fr; /* Force Today View on Mobile essentially */
+        display: grid;
+        grid-template-columns: 50px 1fr !important; /* Time | Task */
+        width: 100%;
     }
-    .header-cell:not(.active-day), 
-    .task-slot:not(.active-day) {
+
+    /* 2. Hide all headers except "Time" and "Active Day" */
+    .header-cell:not(.active-day-mobile):not(:first-child) {
+        display: none !important;
+    }
+
+    /* 3. Hide all task slots that aren't for the Active Day */
+    .task-slot:not(.active-day-mobile) {
+        display: none !important;
+    }
+
+    /* 4. Make slots taller for easier tapping */
+    .task-slot {
+        min-height: 60px;
+        font-size: 1rem; /* Larger font for phone typing */
+        padding: 12px;
+    }
+    
+    /* 5. Hide View Buttons */
+    .view-buttons {
         display: none; 
-        /* Complex logic simplified: JS handles mobile views better, but this is a fallback */
+    }
+
+    /* 6. Collapse Nav */
+    .main-nav {
+        gap: 1rem;
+    }
+    .main-nav a {
+        font-size: 0.9rem;
     }
 }
