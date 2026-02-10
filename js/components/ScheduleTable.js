@@ -10,7 +10,7 @@ export class ScheduleTable extends HTMLElement {
     connectedCallback() {
         this.loadData();
         this.render();
-        this.setupEventListeners();
+        this.setupViewFilters(); // <--- FIXED: Was 'setupEventListeners'
         this.handleMobileView();
         
         // Listen for resize to adjust view if they rotate screen
@@ -35,7 +35,6 @@ export class ScheduleTable extends HTMLElement {
         grid.appendChild(this.createCell('div', 'header-cell', 'TIME'));
         
         this.days.forEach((day, index) => {
-            // Note: We add 'day-X' to header cells too for mobile filtering
             const cell = this.createCell('div', `header-cell day-${index}`, day);
             grid.appendChild(cell);
         });
@@ -77,20 +76,15 @@ export class ScheduleTable extends HTMLElement {
     }
 
     handleMobileView() {
-        // If screen is small (<768px), force show ONLY today
         const isMobile = window.innerWidth < 768;
-        
-        // 1. Calculate Today's Index (0 = Mon, 6 = Sun)
-        let jsDay = new Date().getDay(); // 0 is Sunday in JS
-        let appDay = jsDay === 0 ? 6 : jsDay - 1; // Convert to our 0=Mon system
+        let jsDay = new Date().getDay(); 
+        let appDay = jsDay === 0 ? 6 : jsDay - 1; 
 
-        // 2. Add/Remove special mobile class
         const allSlots = this.querySelectorAll('.header-cell, .task-slot');
         
         allSlots.forEach(slot => {
-            slot.classList.remove('active-day-mobile'); // Reset
+            slot.classList.remove('active-day-mobile'); 
             
-            // If on mobile, only mark today's columns as active
             if (isMobile) {
                 if (slot.classList.contains(`day-${appDay}`)) {
                     slot.classList.add('active-day-mobile');
@@ -98,7 +92,6 @@ export class ScheduleTable extends HTMLElement {
             }
         });
         
-        // Update instruction text
         const hint = document.querySelector('.hint-text');
         if(hint) {
             hint.textContent = isMobile 
@@ -110,13 +103,11 @@ export class ScheduleTable extends HTMLElement {
     attachSlotEvents(slot) {
         const id = slot.getAttribute('data-id');
 
-        // SAVE ON BLUR (Works on mobile when keyboard closes)
         slot.addEventListener('blur', () => {
             this.tasks[id] = slot.textContent;
             this.saveData();
         });
 
-        // DOUBLE CLICK / TAP TO COMPLETE
         slot.addEventListener('dblclick', () => {
             slot.classList.toggle('is-complete');
             if (slot.classList.contains('is-complete')) {
@@ -127,7 +118,6 @@ export class ScheduleTable extends HTMLElement {
             this.saveData();
         });
 
-        // --- DESKTOP DRAG EVENTS (Ignored on Mobile) ---
         slot.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', id);
             slot.classList.add('dragging');
@@ -160,7 +150,6 @@ export class ScheduleTable extends HTMLElement {
                 this.tasks[id] = textToMove;
                 this.tasks[sourceId] = '';
                 
-                // Handle Status Reset
                 slot.classList.remove('is-complete');
                 delete this.tasks[`${id}_status`];
                 this.saveData();
@@ -170,7 +159,6 @@ export class ScheduleTable extends HTMLElement {
     }
 
     setupViewFilters() {
-        // Existing desktop view filter logic (Optional if we keep buttons hidden on mobile)
         const btnWeek = document.getElementById('view-week');
         const btn3Day = document.getElementById('view-3day');
         const btnToday = document.getElementById('view-today');
